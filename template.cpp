@@ -24,7 +24,6 @@ using namespace std;
 namespace sahur{
     #include <bits/stdc++.h>
     #define endl '\n'
-    #define int long long
     #define fi first
     #define se second
     #define pb push_back
