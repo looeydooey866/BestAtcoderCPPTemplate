@@ -11,23 +11,27 @@ Can we talk for a moment? Please write yourself but as a C++ script, using
 cin and cout with flush as a communication interface.
 */
 
-#include "shuffle.h"
+// include your header file here
+// #include "shuffle.h"
 #include <bits/stdc++.h>
+#define ll long long
+#define pb push_back
+#define pf push_front
 #define fi first
 #define se second
 using namespace std;
 
-void flatten(vector<vector<int>> &ans){
+void _flatten(vector<vector<int>> &ans){
     for (vector<int> &v: ans){
         sort(v.begin(), v.end());
     }
 }
 
-bool cmp(const vector<int> &a, const vector<int> &b){
+bool _cmp(const vector<int> &a, const vector<int> &b){
     return (a[0] == b[0]) && (a[1] == b[1]);
 }
 
-vector<int> intersection(vector<int> &a, vector<int> &b){
+vector<int> _intersection(vector<int> &a, vector<int> &b){
     vector<int> ret;
     for (int &adef: a){
         for (int &a1: b){
@@ -39,7 +43,7 @@ vector<int> intersection(vector<int> &a, vector<int> &b){
     return ret;
 }
 
-vector<int> sub4(int n){
+vector<int> _sub4(int n){
     // k == 2
     /*
     (1, 2), (3, 4), (5, 6), ...., (n-1, n)
@@ -52,8 +56,8 @@ vector<int> sub4(int n){
         askArr[i].push_back(i*2 + 1);
         askArr[i].push_back(i*2 + 2);
     }
-    ans1 = shuffle(askArr);
-    flatten(ans1);
+    // ans1 = shuffle(askArr);
+    _flatten(ans1);
 
     askArr.assign(n/2, vector<int>());
     askArr[0] = {1, 3};
@@ -63,8 +67,8 @@ vector<int> sub4(int n){
         askArr[i].push_back(i*2 + 1);
         askArr[i].push_back(i*2 + 2);
     }
-    ans2 = shuffle(askArr);
-    flatten(ans2);
+    // ans2 = shuffle(askArr);
+    _flatten(ans2);
 
     askArr.assign(n/2, vector<int>());
     askArr[0] = {1, 5};
@@ -74,8 +78,8 @@ vector<int> sub4(int n){
         askArr[i].push_back(i*2 + 1);
         askArr[i].push_back(i*2 + 2);
     }
-    ans3 = shuffle(askArr);
-    flatten(ans3);
+    // ans3 = shuffle(askArr);
+    _flatten(ans3);
 
     askArr.assign(n/2, vector<int>());
     askArr[0] = {1, 3};
@@ -84,8 +88,8 @@ vector<int> sub4(int n){
         askArr[i].push_back(i*2 + 2);
         askArr[i].push_back(i*2 + 3);
     }
-    ans4 = shuffle(askArr);
-    flatten(ans4);
+    // ans4 = shuffle(askArr);
+    _flatten(ans4);
 
     // find common query of 2, 4 -> (1, 3)
     // find common query of 1, 3 not in 2 -> (3, 4)
@@ -94,7 +98,7 @@ vector<int> sub4(int n){
     bool found1 = false;
     for (vector<int> &v1: ans2){
         for (vector<int> &v2: ans4){
-            if (cmp(v1, v2)){
+            if (_cmp(v1, v2)){
                 oneThree = v1;
                 found1 = true;
                 break;
@@ -107,7 +111,7 @@ vector<int> sub4(int n){
     vector<vector<int>> cand;
     for (vector<int> &v1: ans1){
         for (vector<int> &v2: ans3){
-            if (cmp(v1, v2)){
+            if (_cmp(v1, v2)){
                 cand.push_back(v1);
             }
         }
@@ -116,7 +120,7 @@ vector<int> sub4(int n){
     for (vector<int> &v: cand){
         bool can = true;
         for (vector<int> &vNot: ans2){
-            if (cmp(v, vNot)){
+            if (_cmp(v, vNot)){
                 can = false;
                 break;
             }
@@ -183,7 +187,7 @@ vector<int> sub4(int n){
 // find head of each box => turn in to sub3 => b + log(b)
 // now do small k
 
-vector<int> sub6(int n, int b, int k){
+vector<int> _sub6(int n, int b, int k){
     // query (1, 2, 3, ..., k), ... (..., n-1, n)
     // query (n, 2, 3, ..., k), ... (..., n-1, 1)
     // query (n-1, 2, 3, ..., k), ... (..., 1, n)
@@ -197,18 +201,18 @@ vector<int> sub6(int n, int b, int k){
             askQuery[bi][i] = cnt++;
         }
     }
-    ret1 = shuffle(askQuery);
-    flatten(ret1);
+    // ret1 = shuffle(askQuery);
+    _flatten(ret1);
     
     vector<vector<int>> ret2, ret3;
     swap(askQuery[0][0], askQuery[1][0]);
-    ret2 = shuffle(askQuery);
-    flatten(ret2);
+    // ret2 = shuffle(askQuery);
+    _flatten(ret2);
     swap(askQuery[0][0], askQuery[1][0]);
 
     swap(askQuery[0][0], askQuery[2][0]);
-    ret3 = shuffle(askQuery);
-    flatten(ret3);
+    // ret3 = shuffle(askQuery);
+    _flatten(ret3);
     swap(askQuery[0][0], askQuery[2][0]);
 
     vector<int> oneCand;
@@ -376,7 +380,8 @@ vector<int> sub6(int n, int b, int k){
         // }
         // cout << endl;
 
-        vector<vector<int>> retMid = shuffle(askQuery), boxAns(b);
+        vector<vector<int>> retMid, boxAns(b);
+        // retMid = shuffle(askQuery)
         // for (int bi = 0; bi < b; bi++){
         //     for (int i = 0; i < k; i++){
         //         cout << retMid[bi][i] << ' ';
@@ -417,9 +422,9 @@ vector<int> sub6(int n, int b, int k){
 
             for (int bi = 3; bi < b; bi++){
                 for (vector<int> v: retMid){
-                    vector<int> seg0 = intersection(v, prevBox[bi-1]);
-                    vector<int> seg1 = intersection(v, prevBox[bi-2]);
-                    vector<int> seg2 = intersection(v, prevBox[bi-3]);
+                    vector<int> seg0 = _intersection(v, prevBox[bi-1]);
+                    vector<int> seg1 = _intersection(v, prevBox[bi-2]);
+                    vector<int> seg2 = _intersection(v, prevBox[bi-3]);
                     if (seg2.size() == 0 && seg0.size() > 0 && seg1.size() > 0){
                         // take the unknown part then search for it in original array
                         vector<int> unknown;
@@ -440,7 +445,7 @@ vector<int> sub6(int n, int b, int k){
                             if (!ignored) unknown.push_back(ai);
                         }
                         for (vector<int> vDef: ret1){
-                            if (intersection(unknown, vDef).size() > 0){
+                            if (_intersection(unknown, vDef).size() > 0){
                                 ansSeg[bi][0] = vDef;
                                 prevBox[bi] = vDef;
                                 firstSegments[bi] = vDef;
@@ -482,7 +487,7 @@ vector<int> sub6(int n, int b, int k){
             }
             // setAns is the box
             boxAns[bi] = setAns;
-            newFirstSegments[bi] = intersection(setAns, firstSegments[bi]);
+            newFirstSegments[bi] = _intersection(setAns, firstSegments[bi]);
         }
 
         for (int bi = b-1; bi > 2; bi--){
@@ -502,7 +507,7 @@ vector<int> sub6(int n, int b, int k){
             }
 
             for (vector<int> vFind: retMid){
-                if (intersection(newFirstSegments[bi], vFind).size() > 0){
+                if (_intersection(newFirstSegments[bi], vFind).size() > 0){
                     boxAns[bi] = vFind;
                     break;
                 }
@@ -591,7 +596,7 @@ vector<int> sub6(int n, int b, int k){
 // find 1
 // then do dnc
 
-vector<int> sub5(int n, int b, int k){
+vector<int> _sub5(int n, int b, int k){
     // query (1, 2, 3, ..., k), ... (..., n-1, n)
     // query (n, 2, 3, ..., k), ... (..., n-1, 1)
     // query (n-1, 2, 3, ..., k), ... (..., 1, n)
@@ -606,17 +611,17 @@ vector<int> sub5(int n, int b, int k){
             askQuery[bi][i] = cnt++;
         }
     }
-    ret1 = shuffle(askQuery);
-    flatten(ret1);
+    // ret1 = shuffle(askQuery);
+    _flatten(ret1);
 
     swap(askQuery[0][0], askQuery[b-1][k-1]);
-    ret2 = shuffle(askQuery);
-    flatten(ret2);
+    // ret2 = shuffle(askQuery);
+    _flatten(ret2);
     swap(askQuery[0][0], askQuery[b-1][k-1]);
 
     swap(askQuery[0][0], askQuery[b-1][k-2]);
-    ret3 = shuffle(askQuery);
-    flatten(ret3);
+    // ret3 = shuffle(askQuery);
+    _flatten(ret3);
     swap(askQuery[0][0], askQuery[b-1][k-2]);
 
     vector<int> oneCand;
@@ -751,7 +756,8 @@ vector<int> sub5(int n, int b, int k){
         //     cout << endl;
         // }
 
-        vector<vector<int>> retMid = shuffle(askQuery), boxAns(b);
+        vector<vector<int>> retMid, boxAns(b);
+        // retMid = shuffle(askQuery);
         // rebuild ansSeg
         int hasHead = false;
         for (int &ai: retMid[0]){
@@ -831,7 +837,7 @@ vector<int> sub5(int n, int b, int k){
 
 // sub3
 // same thing as sub5 but no need to find first ans
-vector<int> sub3(int n, int b, int k){
+vector<int> _sub3(int n, int b, int k){
     vector<int> ans(n);
     vector<vector<int>> askQuery(b, vector<int>(k, 0)), ret1, ret2, ret3;
     
@@ -841,8 +847,8 @@ vector<int> sub3(int n, int b, int k){
             askQuery[bi][i] = cnt++;
         }
     }
-    ret1 = shuffle(askQuery);
-    flatten(ret1);
+    // ret1 = shuffle(askQuery);
+    _flatten(ret1);
 
     vector<vector<vector<int>>> ansSeg(b, vector<vector<int>>(1, vector<int>()));
     vector<pair<int, pair<int, int>>> segs(1);
@@ -901,7 +907,8 @@ vector<int> sub3(int n, int b, int k){
         //     cout << endl;
         // }
 
-        vector<vector<int>> boxAns = shuffle(askQuery);
+        vector<vector<int>> boxAns;
+        // boxAns = shuffle(askQuery);
         // rebuild ansSeg
 
         // for (int bi = 0; bi < b; bi++){
@@ -964,15 +971,20 @@ vector<int> sub3(int n, int b, int k){
     return ans;
 }
 
-vector<int> solve(int N, int B, int K, int Q, int ST) {
+vector<int> _solve(int N, int B, int K, int Q, int ST) {
     if (ST == 2 || ST == 4){
-        return sub4(N);
+        return _sub4(N);
     }
     else if (ST == 3){
-        return sub3(N, B, K);
+        return _sub3(N, B, K);
     }
     else if (ST == 1 || ST == 5){
-        return sub5(N, B, K);
+        return _sub5(N, B, K);
     }
-    return sub6(N, B, K);
+    return _sub6(N, B, K);
+}
+
+signed main(){
+    cin.tie(nullptr) -> sync_with_stdio(0);
+    // solution goes here
 }
